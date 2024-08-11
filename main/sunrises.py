@@ -1,29 +1,14 @@
-#ALL FILES UPLOADED - CREDITS 🌟 - @Sunrises_24
-import time, os
-from pyrogram import Client, filters, enums
-from config import DOWNLOAD_LOCATION, CAPTION
-from main.utils import progress_message, humanbytes
 
 #ALL FILES UPLOADED - CREDITS 🌟 - @Sunrises_24
             
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import os
-import motor.motor_asyncio
-
-# Bot token and database credentials
-API_ID = "10811400"
-API_HASH = "191bf5ae7a6c39771e7b13cf4ffd1279"
-BOT_TOKEN = "7412278588:AAHmk19iP3uK79OglBISjicbl70TD6i9wEc"
-DATABASE_URI = "your_mongodb_uri"  # Replace with your MongoDB URI
-DATABASE_NAME = "your_database_name"  # Replace with your database name
-
-app = Client("python_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-
+from Database.database import db
 
 
 # Start command
-@app.on_message(filters.command("start"))
+@Client.on_message(filters.command("start"))
 async def start(client, message):
     await message.reply("Hi! I'm your Python bot. Here's what you can do:\n"
                         "- Upload a Python (.py) or text (.txt) file to store it.\n"
@@ -32,7 +17,7 @@ async def start(client, message):
                         "What would you like to do?")
 
 # Handle file uploads
-@app.on_message(filters.document)
+@Client.on_message(filters.document)
 async def handle_document(client, message):
     file_name = message.document.file_name
     if file_name.endswith(('.py', '.txt', 'requirements.txt')):
@@ -58,7 +43,7 @@ async def handle_document(client, message):
         await message.reply("Please upload a valid '.py', '.txt', or 'requirements.txt' file.")
 
 # Handle button callbacks
-@app.on_callback_query()
+@Client.on_callback_query()
 async def handle_button(client, callback_query):
     data = callback_query.data
     file_action, file_name = data.split("_", 1)
@@ -82,7 +67,7 @@ async def handle_button(client, callback_query):
         await callback_query.message.reply(f"File '{file_name}' deleted.")
         await callback_query.message.delete()  # Remove the inline buttons message
 
-@app.on_message(filters.command("myfiles"))
+@Client.on_message(filters.command("myfiles"))
 async def list_files(client, message):
     files = await db.list_files()
     if files:
