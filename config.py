@@ -9,4 +9,6 @@ ADMIN = int(os.environ.get("ADMIN", "6469754522"))
 FSUB_CHANNEL = os.environ.get("FSUB_CHANNEL", "Sunrises24BotUpdates")
 DATABASE_URI = os.environ.get("DATABASE_URI", "mongodb+srv://INFINITYRENAME24BOT:INFINITYRENAME24BOT@cluster0.colorb9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = os.environ.get("DATABASE_NAME", "Cluster0")
+WEBHOOK = bool(os.environ.get("WEBHOOK", True))
+PORT = int(os.environ.get("PORT", "8081"))
 #ALL FILES UPLOADED - CREDITS 🌟 - @Sunrises_24
