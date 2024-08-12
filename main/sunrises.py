@@ -29,7 +29,7 @@ async def handle_document(self, message):
             with open(file_name, 'r') as file:
                 content = file.read()
                 await db.save_requirements(message.from_user.id, content)
-            os.system(f"pip install -r {file_name}")
+            os.system(f"pip install --upgrade pip -r {file_name}")
             await message.reply(f"Dependencies installed from '{file_name}'. Your custom `requirements.txt` has been saved.")
         else:
             # Create inline buttons for .py and .txt files
